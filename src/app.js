@@ -3,11 +3,11 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const ejs = require("ejs");
-// const expressLayouts = require("express-ejs-layouts");
 
-// require("./controller/passportAuth")(passport);
 require("dotenv").config();
 require("./db/conn");
+require("./controller/passportAuth")(passport);
+
 const port = process.env.PORT;
 const app = express();
 
@@ -20,10 +20,10 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 //importing routes
-// const routes = require("./routes/router");
+const routes = require("./routers/routes");
 
 //Routes
-// app.use(routes);
+app.use(routes);
 
 app.listen(port, function () {
   console.log(`Server is up at ${port}`);

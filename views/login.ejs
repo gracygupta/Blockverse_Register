@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+      crossorigin="anonymous"
+    />
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        background-color: whitesmoke;
+        width: 100vw;
+        height: 100vh;
+      }
+      #con {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+      }
+      .logo {
+        height: 100%;
+        width: 20vw;
+        overflow: hidden;
+      }
+      .logo img {
+        padding: 15% 10%;
+        height: auto;
+        width: 13vw;
+      }
+      .container {
+        background-color: white;
+        height: 100%;
+        width: 65vw;
+        background-color: whitesmoke;
+      }
+      .box1 {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .box2 {
+        height: 95%;
+        width: 100%;
+        background-color: #0492c2;
+        border: solid rgb(218, 210, 210) 1px;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+      }
+      header {
+        width: 100%;
+        height: 20%;
+        /* background-color: #0492c2; */
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+      }
+      header h1 {
+        padding: 30px;
+      }
+      main {
+        width: 100%;
+        height: 60%;
+        color: white;
+        /* background-color: aqua; */
+      }
+      main div {
+        padding: 50px;
+      }
+
+      footer {
+        height: 20%;
+        width: 100%;
+        padding: 0% 30%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* background-color: aqua; */
+      }
+      button {
+        width: 50%;
+        height: 50%;
+        background-color: white;
+        border: none;
+        border-radius: 10px;
+      }
+      button a {
+        text-decoration: none;
+        color: black;
+      }
+      .right {
+        height: 100vh;
+        width: 15vw;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="con">
+      <div class="logo"><img src="./img/brl_cropped_logo.jpg" alt="" /></div>
+      <div class="container">
+        <div class="box1">
+          <div class="box2">
+            <header><h1>BLOCKVERSE</h1></header>
+            <main>
+              <div>
+                <h3>For 1st and 2nd Year Students</h3>
+                <ul>
+                  <li>
+                    <b>PHASE 1: (4 hours)</b>
+                    <p>
+                      Project building round, where the developers will put
+                      their technical skills to replicate innovative schemas.
+                    </p>
+                  </li>
+                  <li>
+                    <b>PHASE 2: (3 hours)</b>
+                    <p>
+                      CRYPTHUNT, a treasure hunt game where the geeks will
+                      brainstorm over the hints and solve the riddles.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </main>
+            <footer>
+              <a href="/google"><button>Register Now</button></a>
+            </footer>
+          </div>
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>
