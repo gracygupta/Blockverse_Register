@@ -1,20 +1,30 @@
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.secretKey;
 
-const googleAuth = (req, res, next) => {
+const breakToken = (req, res, next) => {
   try {
-    let token = req.params.token;
+    let token = req.cookies.Information;
+    let boolean = req.cookies.variables;
+    console.log(boolean);
     if (token) {
       let user = jwt.verify(token, secretKey);
       if (user) {
-        req.body.userId = user.id;
-
-        console.log("User Authorized");
+        req.body.lemail = user.lemail;
+        req.body.lname = user.lname;
+        req.body.lprofile = user.lprofile;
+        if (boolean.details === "true") {
+          req.body.team_name = user.team_name;
+          req.body.lstud_no = user.lstud_no;
+          req.body.tname = user.tname;
+          req.body.temail = user.temail;
+          req.body.tprofile = user.tprofile;
+          req.body.tstud_no = user.tstud_no;
+        }
         next();
       }
     } else {
-      console.log("Token expire or Unauthorized User");
-      res.redirect("/");
+      const message = "Token expire, please Login Again";
+      res.redirect(`/login?message=${message}`);
     }
   } catch (err) {
     console.log(err);
@@ -24,4 +34,4 @@ const googleAuth = (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = breakToken;

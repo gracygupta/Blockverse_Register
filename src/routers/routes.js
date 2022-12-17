@@ -1,13 +1,20 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
-const jwt = require("jsonwebtoken");
+
+//middlewares import
+const token_breaker = require("../middleware/googleAuth");
+const check = require("../middleware/check");
+
+//controllers
 require("../controller/passportAuth");
-// const auth = require("../middleware/auth");
+const callbackHandle = require("../controller/callbackHandler");
+const control = require("../controller/controls");
+const razorpay = require("../controller/razorpay");
+
 // const razorpay = require("../controller/razorpay");
-const Team = require("../models/team");
-const Transaction = require("../models/transaction");
-const secretKey = process.env.secretKey;
+// const Team = require("../models/team");
+// const Transaction = require("../models/transaction");
 
 //home route
 router.get("/", function (req, res) {
@@ -16,7 +23,8 @@ router.get("/", function (req, res) {
 
 //login page
 router.get("/login", function (req, res) {
-  res.render("login");
+  var message = req.query.message || "false";
+  res.render("login", { message: message });
 });
 
 // Google Authorization
@@ -25,66 +33,40 @@ router.get(
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
 
-// Retrieve user data using the access token received
-// router.get(
-//   "/google/callback",
-//   passport.authenticate(
-//     "google",
-//     {
-//       session: false,
-//       // successRedirect: "/google/callback/success",
-//       failureRedirect: "/google/callback/failure",
-//     },
-//     (req, res) => {
-//       console.log("user again ", req.user);
-//     }
-//   )
-// );
-
+// Callback Route
 router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "/login",
+    failureRedirect: "/login?message='Login Again!!!'",
   }),
-  (req, res) => {
-    console.log(req.user.email);
-    const email = req.user.email.split("@");
-    if (email[1] === "akgec.ac.in") {
-      jwt.sign(
-        {
-          name: req.user.displayName,
-          email: req.user.email,
-          profile: req.user.picture,
-        },
-        secretKey,
-        { expiresIn: "1h" },
-        (err, token) => {
-          if (err) {
-            return res.json({
-              token: null,
-            });
-          }
-          // res.json({ token: token });
-          res.redirect(`/google/callback/success/${token}`);
-        }
-      );
-    } else {
-      res.send("Invalid Email!Please login with college email");
-    }
-  }
+  callbackHandle.callback
 );
 
-//Success
-router.get("/google/callback/success/:token", googleAuth, async (req, res) => {
-  //   if (!req.user) {
-  //     res.redirect("/auth/callback/failure");
-  //   }
-  //   res.send("Welcome " + req.user.email);
-});
+// callback Success
+router.get("/google/callback/success", callbackHandle.callbackSuccess);
 
-// failure
-router.get("/auth/callback/failure", (req, res) => {
-  res.send("Error");
-});
+// callback failure
+router.get(
+  "/google/callback/failure",
+  token_breaker,
+  callbackHandle.callbackFailure
+);
+
+//for rendering details.ejs
+router.get("/fill_details", check, token_breaker, control.get_details);
+
+//for getting neccessary details
+router.post("/fill_details", token_breaker, control.post_details);
+
+// review details
+router.get("/review", check, token_breaker, control.review);
+
+router.get("/payment", razorpay.get_payment);
+// payment route
+router.post("/payment", razorpay.create_orderid);
+
+router.post("/payment/verify", razorpay.verify_payment);
+
+//router export
 module.exports = router;

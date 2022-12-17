@@ -96,20 +96,31 @@
         align-items: center;
         /* background-color: aqua; */
       }
-      button {
-        width: 50%;
-        height: 50%;
+      a button {
+        padding: 10px 30px;
         background-color: white;
         border: none;
         border-radius: 10px;
       }
-      button a {
+      a {
         text-decoration: none;
         color: black;
       }
       .right {
         height: 100vh;
         width: 15vw;
+      }
+      footer {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+      }
+      footer p {
+        width: 100%;
+        color: red;
+        font-size: larger;
+        text-align: center;
       }
     </style>
   </head>
@@ -143,6 +154,10 @@
             </main>
             <footer>
               <a href="/google"><button>Register Now</button></a>
+              <% if(message != "false"){ %>
+              <p><%- message %></p>
+              <!-- <p>********** Login Again **********</p> -->
+              <% } %>
             </footer>
           </div>
         </div>

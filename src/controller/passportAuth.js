@@ -45,8 +45,6 @@ module.exports = (passport) => {
       },
       async (request, accessToken, refreshToken, profile, done) => {
         try {
-          // request.user = profile;
-          // console.log(request.user);
           const user = profile;
           return done(null, user);
         } catch (e) {
