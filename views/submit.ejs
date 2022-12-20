@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration</title>
+  </head>
+  <link rel="stylesheet" href="../css/submit.css" />
+  <body>
+    <div id="con">
+      <div class="logo"><img src="./img/brl_cropped_logo.jpg" alt="" /></div>
+      <div class="containerx">
+        <div class="box1">
+          <div class="box2">
+            <div class="button">
+              <button class="btnx">
+                <a href="/google"
+                  ><img src="./img/google_logo.png" alt="" /> SignUp</a
+                >
+              </button>
+              <button class="btnx" id="details" onclick="details()">
+                <a href="form_in">Fill Details</a>
+              </button>
+              <button class="btnx" id="payment" onclick="pay()">
+                <a href="/google">Make Payment</a>
+              </button>
+              <button class="btnx" id="review" onclick="review()">
+                <a href="/google">Review and Submit</a>
+              </button>
+            </div>
+            <div class="form">
+              <h2>
+                <% if(message === ""){ %> Thankyou! You have been successfully
+                registered for Blockverse. An email is sent to your email. <% }
+                else{ %> <%- message %> <% } %>
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </body>
+</html>

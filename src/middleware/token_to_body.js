@@ -5,7 +5,6 @@ const breakToken = (req, res, next) => {
   try {
     let token = req.cookies.Information;
     let boolean = req.cookies.variables;
-    console.log(boolean);
     if (token) {
       let user = jwt.verify(token, secretKey);
       if (user) {
@@ -24,6 +23,8 @@ const breakToken = (req, res, next) => {
       }
     } else {
       const message = "Token expire, please Login Again";
+      console.log("Token expire...");
+      console.log("Redirecting to -> /login\n");
       res.redirect(`/login?message=${message}`);
     }
   } catch (err) {

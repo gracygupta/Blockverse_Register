@@ -1,80 +1,67 @@
-const { send } = require("process");
 const Razorpay = require("razorpay");
+var crypto = require("crypto");
 require("dotenv").config();
+const Transaction = require("../models/transaction");
+
+const key_id = process.env.razorpay_key_id;
+const key_secret = process.env.razorpay_key_secret;
+const expireTime = 1000 * 60 * 60;
 
 const instance = new Razorpay({
-  key_id: process.env.razorpay_key_id,
-  key_secret: process.env.razorpay_key_secret,
+  key_id: key_id,
+  key_secret: key_secret,
 });
-const create_orderid = async (req, res) => {
-  const amount = 20;
-  let options = {
-    amount: amount * 100, // amount in the smallest currency unit
-    currency: "INR",
-    receipt: "order_rcptid_11",
-  };
-  instance.orders.create(options, function (err, order) {
-    console.log(order);
-    res.status(201).json({
-      success: true,
-      amount,
-      order,
-    });
+
+// get payment handler
+const get_payment = async (req, res) => {
+  res.render("checkout", {
+    razorpay_key: key_id,
   });
 };
 
-//get payment handler
-const get_payment = async (req, res) => {
-  res.render("checkout");
+// create order ID
+const create_orderid = async (req, res) => {
+  try {
+    const amount = 20;
+    let options = {
+      amount: amount * 100,
+      currency: "INR",
+      receipt: "order_rcptid_11",
+    };
+    let order = await instance.orders.create(options);
+    res.status(201).json({ success: true, order });
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-// get.paymet handler
-// const get_payment = async (req, res) => {
-// //   var option = {
-// //     amount: 20 * 100,
-// //     currency: "INR",
-// //     receipt: "order_rcptid_2022",
-// //   };
-// //   instance.orders.create(option, function (err, order) {
-// //     if (err) {
-// //       console.log(err);
-// //     } else {
-//       res.send({ ORDER_ID: order.id });
-//       //   res.render("checkout", {
-//       //     key_id: process.env.razorpay_key_id,
-//       //     amount: order.amount,
-//       //     order_id: order.id,
-//       //   });
-//     }
-//   });
-// };
-
+// payment signature verification
 const verify_payment = async (req, res) => {
-  console.log(req.body);
-  res.send("Thankyou");
-  //   const payment_status = "";
+  let body = req.body.order_id + "|" + req.body.payment_id;
 
-  //   let body =
-  //     req.body.response.razorpay_order_id +
-  //     "|" +
-  //     req.body.response.razorpay_payment_id;
-
-  //   var crypto = require("crypto");
-  //   var expectedSignature = crypto
-  //     .createHmac("sha256", "lIhTEeoU53SwaQIlITg8qT2y")
-  //     .update(body.toString())
-  //     .digest("hex");
-  //   console.log("sig received ", req.body.response.razorpay_signature);
-  //   console.log("sig generated ", expectedSignature);
-  //   var response = { signatureIsValid: "false" };
-  //   if (expectedSignature === req.body.response.razorpay_signature)
-  //     response = { signatureIsValid: "true" };
-  //   if (response.signatureIsValid == true) {
-  //     payment_status = "succesfull";
-  //   } else payment_status = "unsuccesfull";
-
-  //   res.send(response);
+  var expectedSignature = crypto
+    .createHmac("sha256", key_secret)
+    .update(body.toString())
+    .digest("hex");
+  if (expectedSignature === req.body.signature) {
+    // storing successful transaction
+    await Transaction.create({
+      email: req.body.lemail,
+      status: req.body.discription,
+      payment_id: req.body.payment_id,
+      order_id: req.body.order_id,
+      signature: req.body.signature,
+    });
+    // res.redirect("/cookie");
+  } else {
+    await Transaction.create({
+      email: req.body.lemail,
+      status: req.body.discription,
+      payment_id: req.body.payment_id,
+      order_id: req.body.order_id,
+    });
+  }
 };
 
 // exporting
-module.exports = { get_payment, verify_payment, create_orderid };
+module.exports = { get_payment, create_orderid, verify_payment };

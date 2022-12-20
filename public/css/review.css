@@ -1,0 +1,168 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+body {
+  background-color: whitesmoke;
+  width: 100vw;
+  height: 100vh;
+}
+#con {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+.logo {
+  height: 100%;
+  width: 20vw;
+  overflow: hidden;
+}
+.logo img {
+  padding: 15% 10%;
+  height: auto;
+  width: 13vw;
+}
+.containerx {
+  background-color: white;
+  height: 100%;
+  width: 65vw;
+  background-color: whitesmoke;
+}
+.box1 {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.box2 {
+  height: 95%;
+  width: 100%;
+  background-color: white;
+  border: solid rgb(218, 210, 210) 1px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 35%;
+  border-radius: 10px;
+  background-color: #710193;
+}
+.btnx {
+  margin-top: 10px;
+  width: 80%;
+  height: 6%;
+  border: solid rgb(218, 210, 210) 1px;
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btnx a {
+  text-decoration: none;
+  color: black;
+}
+.btn1 {
+  background-color: #b24bf3;
+  border: none;
+  color: white;
+}
+.btn1 a {
+  color: white;
+}
+.btnx img {
+  height: auto;
+  width: 20px;
+}
+.active {
+  background-color: black;
+  color: white;
+}
+.form {
+  width: 65%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#form_in {
+  display: flex;
+  flex-direction: column;
+}
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.card {
+  width: 100%;
+  height: 100%;
+}
+.submit_btn {
+  background-color: #710193;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  padding: 10px 30px;
+}
+.review {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+.image1 img {
+  height: 100%;
+  width: auto;
+  padding: 10px;
+  padding-left: 30px;
+  /* background-color: aqua; */
+}
+.teamname {
+  height: 15%;
+  width: 100%;
+  text-align: center;
+}
+.teamname h3 {
+  padding-top: 15px;
+}
+.details {
+  height: 35%;
+  width: 100%;
+}
+a {
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+a button {
+  background-color: white;
+}
+#rzp-button1:hover {
+  background-color: #b24bf3;
+}
+.submit_btn:hover {
+  background-color: #b24bf3;
+}
+.right {
+  height: 100vh;
+  width: 15vw;
+}

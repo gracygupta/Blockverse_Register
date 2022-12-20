@@ -2,19 +2,25 @@ const mongoose = require("mongoose");
 
 //defining structure
 const transactionSchema = new mongoose.Schema({
-  id: { type: mongoose.Schema.Types.ObjectId, ref: "Teams" },
-  order_id: String,
-  payment_id: {
+  email: {
+    type: String,
+    required: true,
+  },
+  status: {
     type: String,
     default: null,
+  },
+  payment_id: {
+    type: String,
+    required: true,
+  },
+  order_id: {
+    type: String,
+    required: true,
   },
   signature: {
     type: String,
     default: null,
-  },
-  status: {
-    type: String,
-    enum: ["success", "failed"],
   },
 });
 

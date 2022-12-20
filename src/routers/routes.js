@@ -3,18 +3,15 @@ const router = express.Router();
 const passport = require("passport");
 
 //middlewares import
-const token_breaker = require("../middleware/googleAuth");
-const check = require("../middleware/check");
+const token_breaker = require("../middleware/token_to_body");
+const check = require("../middleware/check").check;
+const check_completion = require("../middleware/check").check_completion;
 
 //controllers
 require("../controller/passportAuth");
 const callbackHandle = require("../controller/callbackHandler");
 const control = require("../controller/controls");
 const razorpay = require("../controller/razorpay");
-
-// const razorpay = require("../controller/razorpay");
-// const Team = require("../models/team");
-// const Transaction = require("../models/transaction");
 
 //home route
 router.get("/", function (req, res) {
@@ -24,6 +21,7 @@ router.get("/", function (req, res) {
 //login page
 router.get("/login", function (req, res) {
   var message = req.query.message || "false";
+  console.log(message);
   res.render("login", { message: message });
 });
 
@@ -38,7 +36,7 @@ router.get(
   "/google/callback",
   passport.authenticate("google", {
     session: false,
-    failureRedirect: "/login?message='Login Again!!!'",
+    failureRedirect: "/login?message=Login Again!!!",
   }),
   callbackHandle.callback
 );
@@ -59,14 +57,17 @@ router.get("/fill_details", check, token_breaker, control.get_details);
 //for getting neccessary details
 router.post("/fill_details", token_breaker, control.post_details);
 
-// review details
+// review details entered
 router.get("/review", check, token_breaker, control.review);
 
-router.get("/payment", razorpay.get_payment);
 // payment route
-router.post("/payment", razorpay.create_orderid);
+router.post("/payment", check, razorpay.create_orderid);
 
-router.post("/payment/verify", razorpay.verify_payment);
+// payment signature verification
+router.post("/payment/verify", token_breaker, razorpay.verify_payment);
+
+// submit to end registration
+router.get("/submit", check_completion, token_breaker, control.submit);
 
 //router export
 module.exports = router;

@@ -4,11 +4,13 @@ const mongoose = require("mongoose");
 const teamSchema = new mongoose.Schema({
   team_name: {
     type: String,
-    required: true,
   },
   leader: {
     name: String,
-    email: String,
+    email: {
+      type: String,
+      unique: true,
+    },
     student_no: Number,
     profile_img: String,
   },

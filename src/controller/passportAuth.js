@@ -10,30 +10,6 @@ const clientID = process.env.clientID;
 const clientSecret = process.env.clientSecret;
 const url = process.env.URL;
 
-// passport.serializeUser((user, done) => {
-//   done(null, user);
-// });
-// passport.deserializeUser(function (user, done) {
-//   done(null, user);
-// });
-
-// passport.use(
-//   new GoogleStrategy(
-//     {
-//       clientID: clientID,
-//       clientSecret: clientSecret,
-//       callbackURL: url,
-//       passReqToCallback: true,
-//     },
-//     async function (request, accessToken, refreshToken, profile, done) {
-//       var user = profile;
-//       console.log("user: ", user);
-//       console.log("profile: ", profile);
-//       return done(null, profile);
-//     }
-//   )
-// );
-
 module.exports = (passport) => {
   passport.use(
     new GoogleStrategy(
