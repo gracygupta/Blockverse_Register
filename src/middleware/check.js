@@ -3,7 +3,6 @@ const secretKey = process.env.secretKey;
 
 const check = async (req, res, next) => {
   var booleans = req.cookies.variables;
-  console.log("hey there");
   if (!booleans) {
     console.log("Redirecting to -> /login\n");
     res.redirect("/login?message=Session expire. Please register again!!");
@@ -26,7 +25,6 @@ const check = async (req, res, next) => {
 
 const check_completion = async (req, res, next) => {
   const payment = req.cookies.payment_status;
-  console.log(payment);
   if (!payment) {
     console.log("Redirecting to -> /review\n");
     res.redirect("/review?message=***Please pay registration fee***");
