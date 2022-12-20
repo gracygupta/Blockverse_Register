@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const nodemailer = require("nodemailer");
 
 const secretKey = process.env.secretKey;
 const expireTime = 1000 * 60 * 60;
