@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const Team = require("../models/team");
+const nodemailer = require("nodemailer");
 
 const secretKey = process.env.secretKey;
 const expireTime = 1000 * 60 * 60;
@@ -145,6 +146,34 @@ const submit = async (req, res) => {
         },
       });
     }
+    var mailList;
+    if (!req.body.temail) {
+      mailList = [req.body.lemail];
+    } else {
+      mailList = [req.body.lemail, req.body.temail];
+    }
+
+    // sending email
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+    var mailOptions = {
+      from: process.env.EMAIL,
+      to: mailList,
+      subject: "Blockchain Research Lab",
+      html: "<p>Congratulation folks!<br><br>You have been successfully registered for <b>BLOCKVERSE</b>. We hope that you will enjoy. Further details will be sent to your email, kindly keep updating yourself.<p>",
+    };
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent" + info.response);
+      }
+    });
     res.render("submit", { message: "" });
   } catch (e) {
     console.log("error");
