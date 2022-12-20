@@ -1,5 +1,6 @@
 const Razorpay = require("razorpay");
 var crypto = require("crypto");
+const nodemailer = require("nodemailer");
 require("dotenv").config();
 const Transaction = require("../models/transaction");
 
@@ -38,7 +39,6 @@ const create_orderid = async (req, res) => {
 // payment signature verification
 const verify_payment = async (req, res) => {
   let body = req.body.order_id + "|" + req.body.payment_id;
-
   var expectedSignature = crypto
     .createHmac("sha256", key_secret)
     .update(body.toString())
@@ -61,6 +61,27 @@ const verify_payment = async (req, res) => {
       order_id: req.body.order_id,
     });
   }
+  // sending transaction details
+  let transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+  });
+  var mailOptions = {
+    from: process.env.EMAIL,
+    to: req.body.lemail,
+    subject: "Blockchain Research Lab",
+    html: `<p>Your Transaction Details:<br><b>${req.body.discription}</b><br>Payment ID: ${req.body.payment_id}<br><br>In case of refund and query mail to <i>gracy.gupta04@gmail.com<i><p>`,
+  };
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Email sent" + info.response);
+    }
+  });
 };
 
 // exporting

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 
 const secretKey = process.env.secretKey;
 const expireTime = 1000 * 60 * 60;
@@ -36,7 +37,7 @@ const callback = async (req, res) => {
     });
     res.redirect("/google/callback/success");
   } else {
-    res.redirect("/google/callback/failure");
+    res.redirect("/login?message=Register with college email only");
   }
 };
 
@@ -58,9 +59,7 @@ const callbackSuccess = async (req, res) => {
 
 //callback Failure
 const callbackFailure = async (req, res) => {
-  res.redirect(
-    "/login?message='Invalid Email!! Please login with college email'"
-  );
+  res.redirect("/login?message=Error login!! Please try again");
 };
 
 module.exports = { callback, callbackSuccess, callbackFailure };

@@ -21,7 +21,6 @@ router.get("/", function (req, res) {
 //login page
 router.get("/login", function (req, res) {
   var message = req.query.message || "false";
-  console.log(message);
   res.render("login", { message: message });
 });
 
